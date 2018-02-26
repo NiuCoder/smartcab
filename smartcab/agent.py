@@ -59,7 +59,7 @@ class LearningAgent(Agent):
         ## TO DO ##
         ###########
         # Set 'state' as a tuple of relevant data for the agent        
-        state = (waypoint,inputs)
+        state = (waypoints,inputs['light'],inputs['left'],inputs['right'],inputs['oncoming'])
 
         return state
 
@@ -87,7 +87,9 @@ class LearningAgent(Agent):
         # When learning, check if the 'state' is not in the Q-table
         # If it is not, create a new dictionary for that state
         #   Then, for each action available, set the initial Q-value to 0.0
-        
+        if learning:
+            if state not in self.Q:
+                self.Q[state] = {None:0.0,'forward':0.0,'left':0.0,'right':0.0}
         return
 
 
@@ -99,7 +101,7 @@ class LearningAgent(Agent):
         self.state = state
         self.next_waypoint = self.planner.next_waypoint()
         action = None
-
+        import operator
         ########### 
         ## TO DO ##
         ###########
@@ -108,8 +110,10 @@ class LearningAgent(Agent):
         #   Otherwise, choose an action with the highest Q-value for the current state
         if not self.learning:
             action = random.choice(self.valid_actions)
+        elif random.random() < self.epsilon:
+            action = random.choice(self.valid_actions)
         else:
-            pass
+            action = max(self.Q[state].iteritems(), key=operator.itemgetter(1))[0]
         return action
 
 
@@ -123,7 +127,8 @@ class LearningAgent(Agent):
         ###########
         # When learning, implement the value iteration update rule
         #   Use only the learning rate 'alpha' (do not use the discount factor 'gamma')
-
+        if learning:
+            self.Q[state][action] = self.Q[state][action] + reward*self.alpha
         return
 
 
