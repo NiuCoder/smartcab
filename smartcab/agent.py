@@ -41,7 +41,7 @@ class LearningAgent(Agent):
         # If 'testing' is True, set epsilon and alpha to 0
         #self.epsilon = self.epsilon - 0.05
         self.t = self.t + 1
-        self.epsilon = math.exp(-self.t*0.1)
+        self.epsilon = math.exp(-self.t*0.02)
         #self.epsilon = math.pow(self.t,-2)
         if testing:
             self.epsilon = 0
@@ -167,7 +167,7 @@ def run():
     #   learning   - set to True to force the driving agent to use Q-learning
     #    * epsilon - continuous value for the exploration factor, default is 1
     #    * alpha   - continuous value for the learning rate, default is 0.5
-    agent = env.create_agent(LearningAgent,learning=True,alpha=0.2)
+    agent = env.create_agent(LearningAgent,learning=True,epsilon=10,alpha=0.6)
     
     ##############
     # Follow the driving agent
@@ -183,14 +183,14 @@ def run():
     #   log_metrics  - set to True to log trial and simulation results to /logs
     #   optimized    - set to True to change the default log file name
     
-    sim = Simulator(env,update_delay = 0.01,display = False,log_metrics = True,optimized=True)
+    sim = Simulator(env,update_delay = 0.01,display = True,log_metrics = True,optimized=True)
     
     ##############
     # Run the simulator
     # Flags:
     #   tolerance  - epsilon tolerance before beginning testing, default is 0.05 
     #   n_test     - discrete number of testing trials to perform, default is 0
-    sim.run(tolerance=0.01,n_test=10)
+    sim.run(tolerance=0.1,n_test=10)
 
 
 if __name__ == '__main__':
