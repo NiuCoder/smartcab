@@ -131,7 +131,7 @@ class LearningAgent(Agent):
         # When learning, implement the value iteration update rule
         #   Use only the learning rate 'alpha' (do not use the discount factor 'gamma')
         if self.learning:
-            self.Q[state][action] = self.Q[state][action] + reward*self.alpha
+            self.Q[state][action] = (1-self.alpha)*self.Q[state][action] + reward*self.alpha
         return
 
 
@@ -167,7 +167,7 @@ def run():
     #   learning   - set to True to force the driving agent to use Q-learning
     #    * epsilon - continuous value for the exploration factor, default is 1
     #    * alpha   - continuous value for the learning rate, default is 0.5
-    agent = env.create_agent(LearningAgent,learning=True,epsilon=10,alpha=0.6)
+    agent = env.create_agent(LearningAgent,learning=True,epsilon=1,alpha=0.05)
     
     ##############
     # Follow the driving agent
@@ -183,7 +183,7 @@ def run():
     #   log_metrics  - set to True to log trial and simulation results to /logs
     #   optimized    - set to True to change the default log file name
     
-    sim = Simulator(env,update_delay = 0.01,display = True,log_metrics = True,optimized=True)
+    sim = Simulator(env,update_delay = 0.01,display = False,log_metrics = True,optimized=True)
     
     ##############
     # Run the simulator
