@@ -62,7 +62,7 @@ class LearningAgent(Agent):
         ## TO DO ##
         ###########
         # Set 'state' as a tuple of relevant data for the agent        
-        state = (waypoint,inputs['light'],inputs['left'],inputs['oncoming'])
+        state = (waypoint,inputs['light'],inputs['left'],inputs['right'],inputs['oncoming'],deadline)
 
         return state
 
@@ -183,7 +183,7 @@ def run():
     #   log_metrics  - set to True to log trial and simulation results to /logs
     #   optimized    - set to True to change the default log file name
     
-    sim = Simulator(env,update_delay = 0.01,display = False,log_metrics = True,optimized=True)
+    sim = Simulator(env,update_delay = 0.01,display = True,log_metrics = True,optimized=True)
     
     ##############
     # Run the simulator
