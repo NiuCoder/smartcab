@@ -41,8 +41,7 @@ class LearningAgent(Agent):
         # If 'testing' is True, set epsilon and alpha to 0
         # self.epsilon = self.epsilon - 0.05
         self.t = self.t + 1
-        # self.epsilon = math.exp(-self.t*0.01)
-        self.epsilon = math.cos(0.001*self.t)
+        self.epsilon = math.exp(-self.t*0.01)
         if testing:
             self.epsilon = 0
             self.alpha = 0
